@@ -24,7 +24,7 @@ export default function MyLoginPage() {
     const handleChangePassword = (event) => {
         setPassword(event.target.value);
     };
-
+    
     const validateFields = () => {
         const emailRegEx = RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         if (userName === '') {
@@ -109,6 +109,10 @@ export default function MyLoginPage() {
             </InputAdornment>
         }}
         />
+        <Box style={{
+            height: "1vh"
+        }}>
+        </Box>       
         {
             isLoading ? <CircularProgress/> : <Button variant="contained" color="primary" style={{
                 marginTop: "40px"
