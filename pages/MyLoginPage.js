@@ -54,7 +54,9 @@ export default function MyLoginPage() {
                 if(response.data.result === false){
                     console.log(response.data.reason);
                 } else {
-                    console.log("Login is successful and my user id is"+response.data.id);
+                    //console.log("Login is successful and my user id is"+response.data.id);
+                    const userId = response.data.id;
+                    window.localStorage.setItem('userId', userId);
                     Router.replace('/');
                 }
             }
