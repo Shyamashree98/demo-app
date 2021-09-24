@@ -22,7 +22,6 @@ export default class MyApp extends App{
 
   render()
   {
-    //index.js
     const {Component, pageProps} = this.props;
     return(
       <Component {...pageProps}/>
