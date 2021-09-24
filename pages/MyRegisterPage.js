@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography, InputAdornment, Container, IconButton, FormControl, FormControlLabel, FormLabel, FormHelperText } from "@material-ui/core";
+import { Box, Button, Paper, Typography, InputAdornment, CircularProgress, IconButton, FormControl, FormControlLabel, FormLabel, FormHelperText } from "@material-ui/core";
 import React from 'react';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
@@ -15,11 +15,13 @@ export default function Register() {
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [confirmPassword, setConfirmPassword] = React.useState('');
     const [firstNameError, setFirstNameError] = React.useState('');
     const [lastNameError, setLastNameError] = React.useState('');
     const [emailError, setEmailError] = React.useState('');
     const [phoneError, setPhoneError] = React.useState('');
     const [passwordError, setPasswordError] = React.useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = React.useState('');
     const [isObscure, setIsObscure] = React.useState(false);
     const [value, setValue] = React.useState('');
     const [radioError, setRadioError] = React.useState(false);
@@ -48,7 +50,11 @@ export default function Register() {
     const handleChangePassword = (event) => {
         setPassword(event.target.value);
     };
-
+    
+    const handleChangeConfirmPassword = (event) => {
+        setConfirmPassword(event.target.value);
+    };
+    
     const validateFields = () => {
         const emailRegEx = RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         if (email === '') {
@@ -85,12 +91,19 @@ export default function Register() {
         } else {
             setPasswordError('');
         }
+        
+        if(password !== confirmPassword){
+            setConfirmPasswordError('Passwords don\'t match');
+            return false;
+        }else{
+            setConfirmPasswordError('');
+        }
         if(value === ''){
             setRadioError(true);
             setHelperText("Choose an option");
             return false;
         }
-
+        
         return true;
         
     }
@@ -122,7 +135,7 @@ export default function Register() {
             justifyContent: "Center",
             flexDirection: "column",
             width: "90vh",
-            height: "75vh",
+            height: "95vh",
             padding: 32
         }}  >
         <Typography variant="h4" color="primary"><b>REGISTER</b></Typography>
@@ -203,11 +216,39 @@ export default function Register() {
         }}
         />
         
-        <Button variant="contained" color="primary" style={{
-            marginTop: "40px"
-        }} onClick={handleSaveData}>
-        Register
-        </Button>
+        <TextField id="outlined-basic" fullWidth label="Confirm Password" 
+        variant="outlined" 
+        type={isObscure ? 'text' : 'password'} 
+        style={{
+            marginTop: "20px",
+        }} 
+        error={confirmPasswordError === '' ? false : true}
+        helperText={confirmPasswordError}  
+        onChange={handleChangeConfirmPassword}
+        InputProps={{
+            endAdornment:
+            <InputAdornment position='end'>
+            <IconButton edge='end' onClick={() => {
+                setIsObscure(!isObscure)
+            }}>
+            {
+                isObscure ? <VisibilityIcon /> : <VisibilityOffIcon />
+            }
+            </IconButton>
+            </InputAdornment>
+        }}
+        />
+        <Box style={{
+            height: "1vh"
+        }}>
+        </Box>
+        {
+            isLoading ? <CircularProgress/> : <Button variant="contained" color="primary" style={{
+                marginTop: "40px"
+            }} onClick={handleSaveData}>
+            Register
+            </Button>
+        }
         </Paper>
         </Box>
         );
